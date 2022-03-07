@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block con %}
+
+<div class="container mt-5">
+
+    <h1><b>번역기</b></h1>
+
+
+    {% for key, value in d.items %}
+        {{key}} {{value}}
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-5">
+                <textarea class="form-control" style="height: 300px;" name="bf">{{ bf }}</textarea>
+            </div>
+            <div class="col-lg-2 text-center" style="margin: auto;">
+                <select name="fr" class="form-select" multiple aria-label="multiple select example">
+                    {% for code, name in ndict.items %}
+                        <option value="{{ code }}" {% if fr %}{% if fr == code %}selected{% endif %}{% else %}{% if code == 'ko' %}selected{% endif %}{% endif %}>{{ name | upper }}</option>
+                    {% endfor %}
+                </select>
+                
+                <div class="mt-3 mb-3">
+                    <button class="btn btn-dark">번역</button>
+                </div>
+
+                <select name="to" class="form-select" multiple aria-label="multiple select example">
+                    {% for code, name in ndict.items %}
+                        <option value="{{ code }}" {% if to %}{% if to == code %}selected{% endif %}{% else %}{% if code == 'en' %}selected{% endif %}{% endif %}>{{ name | upper }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-5">
+                <textarea class="form-control" style="height: 300px;" disabled>{{af}}</textarea>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}
